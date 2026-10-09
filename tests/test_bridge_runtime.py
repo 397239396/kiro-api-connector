@@ -79,6 +79,9 @@ class BridgeRuntimeTest(unittest.TestCase):
                     replacement.write_text(json.dumps(config),encoding='utf8')
                     replacement.replace(config_path)
                     self.assertEqual(get('/List-Available-Models')['defaultModel']['modelId'],'changed')
+                    current_catalog = get('/ListAvailableModels')
+                    self.assertEqual([item['modelId'] for item in current_catalog['models']],['changed'])
+                    self.assertEqual(current_catalog['defaultModel']['modelId'],'changed')
                     payload={'conversationState':{'currentMessage':{'userInputMessage':{
                         'content':'[SYSTEM NOTE: automated summarization request] Summarize the supplied conversation.',
                         'modelId':'auto'}}}}

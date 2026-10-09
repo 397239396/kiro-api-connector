@@ -105,7 +105,8 @@ async function start() {
       console.log(`${req.method} ${url.pathname} ${target}`);
       if (url.pathname === '/health') return json(res, 200, { ok: true, activeRequests, hotReload: true });
       Object.assign(config, JSON.parse(fs.readFileSync(process.env.KIRO_CONNECTOR_CONFIG, 'utf8')));
-      if (url.pathname === '/List-Available-Models' || target.includes('ListAvailableModels')) {
+      if (url.pathname === '/List-Available-Models' || url.pathname === '/ListAvailableModels' ||
+          target.includes('ListAvailableModels')) {
         req.resume();
         const models = await getModels();
         return json(res, 200, { models, ...(models.some(m => m.modelId === config.defaultModel)
